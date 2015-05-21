@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05 20, 15 2:11:57 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.model.Course" table="course" catalog="AES" optimistic-lock="version">
+        <id name="courseId" type="int">
+            <column name="courseId" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="courseCategory" class="com.model.CourseCategory" fetch="select">
+            <column name="course_category_courseCategoryId" not-null="true" />
+        </many-to-one>
+        <property name="courseTitle" type="string">
+            <column name="course_title" length="50" not-null="true" />
+        </property>
+        <property name="courseOutline" type="string">
+            <column name="course_outline" not-null="true" />
+        </property>
+        <property name="dateCreated" type="timestamp">
+            <column name="dateCreated" length="19" not-null="true" />
+        </property>
+        <property name="lastEdited" type="timestamp">
+            <column name="lastEdited" length="19" not-null="true" />
+        </property>
+        <set name="exams" table="exam" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="course_courseId" not-null="true" />
+            </key>
+            <one-to-many class="com.model.Exam" />
+        </set>
+        <set name="chapters" table="chapter" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="course_courseId" not-null="true" />
+            </key>
+            <one-to-many class="com.model.Chapter" />
+        </set>
+        <set name="coursesAssigneds" table="courses_assigned" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="course_courseId" not-null="true" />
+            </key>
+            <one-to-many class="com.model.CoursesAssigned" />
+        </set>
+    </class>
+</hibernate-mapping>
